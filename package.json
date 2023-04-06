@@ -5,12 +5,20 @@
   "description": "",
   "scripts": {
     "start": "sls offline",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dynamodb-admin:win": "set DYNAMO_ENDPOINT=http://localhost:8010&&dynamodb-admin",
+    "dynamodb-admin:linux": "DYNAMO_ENDPOINT=http://localhost:8010 dynamodb-admin"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^12.0.4"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.306.0",
+    "@aws-sdk/lib-dynamodb": "^3.306.0",
+    "uuid": "^9.0.0",
+    "yup": "^1.0.2"
   }
 }

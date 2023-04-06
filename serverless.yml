@@ -3,14 +3,14 @@ plugins:
   - serverless-offline
 app: sls-test
 service: sls-test
-
+useDotenv: true
 frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs18.x
   stage: ${opt:stage, 'local'}
-  region: eu-central-1
+  region: ${env:REGION}
   memorySize: 256
   iam:
     role:
@@ -26,7 +26,8 @@ provider:
             - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:eu-central-1:*:*"
   environment:
-    TABLE_NAME_USERS: users
+    DYNAMO_ENDPOINT: ${env:DYNAMO_ENDPOINT}
+    REGION: ${env:REGION}
 
 custom:
   serverless-offline:
@@ -34,15 +35,15 @@ custom:
     lambdaPort: 4002
   dynamodb:
     stages:
-      - ${opt:stage, 'local'}
+      - ${self:provider.stage}
     start:
       docker: true
-      port: 8010
+      port: 8010:8000
       inMemory: false
       migrate: true
-      seed: true
-      convertEmptyValues: true
-      noStart: true
+      convertEmptyValues: false
+      noStart: false
+      dockerImage: amazon/dynamodb
 
 functions:
   - hello-world:
@@ -58,6 +59,8 @@ functions:
         - http:
             path: users/create
             method: PUT
+      environment:
+        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 
 resources:
   Resources:
@@ -71,18 +74,35 @@ resources:
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: isActive
+            AttributeType: N
+          - AttributeName: firstName
+            AttributeType: S
+          - AttributeName: userName
+            AttributeType: S
         ProvisionedThroughput:
           ReadCapacityUnits: 3
           WriteCapacityUnits: 3
         GlobalSecondaryIndexes:
-          IndexName: isActiveIndex
-          KeySchema: 
+          - IndexName: isActiveIndex
+            KeySchema: 
             - AttributeName: isActive
               KeyType: HASH
             - AttributeName: firstName
               KeyType: RANGE
-          Projection:
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits: 3
-            WriteCapacityUnits: 3
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 3
+              WriteCapacityUnits: 3
+          - IndexName: userNameIndex
+            KeySchema:
+            - AttributeName: userName
+              KeyType: HASH
+            - AttributeName: firstName
+              KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 3
+              WriteCapacityUnits: 3

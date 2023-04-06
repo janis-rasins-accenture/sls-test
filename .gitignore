@@ -2,3 +2,7 @@ node_modules
 
 # Serverless
 .serverless
+
+# .env files
+.env
+.env.*
