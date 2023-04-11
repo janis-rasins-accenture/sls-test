@@ -1,4 +1,5 @@
 plugins:
+  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-offline
 app: sls-test
@@ -47,14 +48,14 @@ custom:
 
 functions:
   - hello-world:
-      handler: handler.hello
+      handler: handlers/hello/hello.handler
       description: "offline example"
       events:
         - http:
             path: hello
             method: GET
   - createUser:
-      handler: users.createUser
+      handler: handlers/users/createUser.handler
       events:
         - http:
             path: users/create

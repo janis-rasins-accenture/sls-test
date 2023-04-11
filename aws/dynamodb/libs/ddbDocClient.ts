@@ -1,5 +1,5 @@
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb"
-import { ddbClient } from "./ddbClient.js"
+import { ddbClient } from "./ddbClient"
 
 const marshallOptions = {
     // Whether to automatically convert empty strings, blobs, and sets to `null`.
@@ -21,5 +21,4 @@ const translateConfig = { marshallOptions, unmarshallOptions }
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, translateConfig)
 
 export { ddbDocClient }
-// snippet-end:[dynamodb.JavaScript.tables.createdocclientv3]
 

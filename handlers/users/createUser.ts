@@ -1,7 +1,13 @@
-import { putItem } from './aws/dynamodb/putItem.js'
+import { APIGatewayEvent } from 'aws-lambda'
+import { putItem } from '../../aws/dynamodb/putItem'
 import { v4 as uuidv4 } from 'uuid'
+import { PutCommandInput } from '@aws-sdk/lib-dynamodb'
 
-export const createUser = async (event) => {
+interface CreateUserInputIF {
+    firstName?: string
+}
+
+export const handler = async (event: APIGatewayEvent) => {
     if (!event.body) {
         return {
             statusCode: 400,
@@ -14,7 +20,7 @@ export const createUser = async (event) => {
             ),
         }
     }
-    const body = JSON.parse(event.body)
+    const body: CreateUserInputIF = JSON.parse(event.body)
     if (!body.firstName) {
         console.log('body: ', body)
         return {
@@ -29,7 +35,7 @@ export const createUser = async (event) => {
         }
     }
     const uuid = uuidv4()
-    const params = {
+    const params: PutCommandInput = {
         TableName: process.env.TABLE_NAME_USERS,
         Item: {
             userId: uuid,
