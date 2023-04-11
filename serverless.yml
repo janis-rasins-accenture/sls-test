@@ -5,7 +5,7 @@ plugins:
 app: sls-test
 service: sls-test
 useDotenv: true
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -25,7 +25,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: "arn:aws:dynamodb:eu-central-1:*:*"
+          Resource: 'arn:aws:dynamodb:eu-central-1:*:*'
   environment:
     DYNAMO_ENDPOINT: ${env:DYNAMO_ENDPOINT}
     REGION: ${env:REGION}
@@ -49,7 +49,7 @@ custom:
 functions:
   - hello-world:
       handler: handlers/hello/hello.handler
-      description: "offline example"
+      description: 'offline example'
       events:
         - http:
             path: hello
@@ -60,6 +60,14 @@ functions:
         - http:
             path: users/create
             method: PUT
+      environment:
+        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+  - queryUsers:
+      handler: handlers/users/queryUsers.handler
+      events:
+        - http:
+            path: users/get
+            method: GET
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 
@@ -86,11 +94,11 @@ resources:
           WriteCapacityUnits: 3
         GlobalSecondaryIndexes:
           - IndexName: isActiveIndex
-            KeySchema: 
-            - AttributeName: isActive
-              KeyType: HASH
-            - AttributeName: firstName
-              KeyType: RANGE
+            KeySchema:
+              - AttributeName: isActive
+                KeyType: HASH
+              - AttributeName: firstName
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
             ProvisionedThroughput:
@@ -98,10 +106,10 @@ resources:
               WriteCapacityUnits: 3
           - IndexName: userNameIndex
             KeySchema:
-            - AttributeName: userName
-              KeyType: HASH
-            - AttributeName: firstName
-              KeyType: RANGE
+              - AttributeName: userName
+                KeyType: HASH
+              - AttributeName: firstName
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
             ProvisionedThroughput:
