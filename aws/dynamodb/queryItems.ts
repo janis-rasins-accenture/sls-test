@@ -1,5 +1,5 @@
 import { QueryCommand, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
-import { ddbDocClient } from "../dynamodb/libs/ddbDocClient";
+import { ddbDocClient } from "./libs/ddbDocClient";
 
 export const queryItems = async (params: QueryCommandInput) => {
     try {

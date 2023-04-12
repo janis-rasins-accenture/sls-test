@@ -1,5 +1,5 @@
 import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb"
-import { ddbClient } from "../dynamodb/libs/ddbClient"
+import { ddbClient } from "./libs/ddbClient"
 
 export const getItems = async (params: GetItemCommandInput) => {
     try {
