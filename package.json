@@ -34,5 +34,8 @@
   "eslintConfig": {
     "extends": "@serverless/eslint-config/node",
     "root": true
+  },
+  "overrides": {
+    "xml2js": "^0.5.0"
   }
 }
