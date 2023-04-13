@@ -1,18 +1,9 @@
 import { UpdateCommandInput } from "@aws-sdk/lib-dynamodb"
 import { returnData } from "../../utils/returnData"
 import { updateItem } from "../../aws/dynamodb/updateItem"
+import { DynamoUserIF } from "../../types/users-if"
 
-interface UserDataIF {
-    userId?: { S: string }
-	firstName?: {S: string }
-	lastName?: { S: string }
-	email?: { S: string }
-	avatarUrl?: { S: string }
-	userName?: { S: string }
-	isActive?: { N: number }
-}
-
-export const updateUser = async (user: UserDataIF) => {
+export const updateUser = async (user: DynamoUserIF) => {
     const TABLE_NAME_USERS = process.env.TABLE_NAME_USERS
     if (!TABLE_NAME_USERS) {
         console.log('No TABLE_NAME_USERS')
