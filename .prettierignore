@@ -1,0 +1,5 @@
+# Ignore artifacts:
+.build
+.serverless
+.env
+.env.*

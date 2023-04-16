@@ -70,6 +70,14 @@ functions:
             method: GET
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+  - importUsers:
+      handler: handlers/users/importUsers.handler
+      events:
+        - http:
+            path: users/import
+            method: POST
+      environment:
+        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 
 resources:
   Resources:

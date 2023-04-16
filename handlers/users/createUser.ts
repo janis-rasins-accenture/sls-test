@@ -13,9 +13,9 @@ export const handler = async (event: APIGatewayEvent) => {
     if (!event.body) {
         return returnData(400, "No body!")
     }
-    const body: CreateUserInputIF = JSON.parse(event.body)
+    const user: CreateUserInputIF = JSON.parse(event.body)
     try {
-        await userCreateSchema.validate(body)
+        await userCreateSchema.validate(user)
     } catch (error) {
         if (error instanceof ValidationError) {
             return returnData(400, error.message)
@@ -27,15 +27,15 @@ export const handler = async (event: APIGatewayEvent) => {
         TableName: process.env.TABLE_NAME_USERS,
         Item: {
             userId: uuid,
-            firstName: body.firstName,
+            firstName: user.firstName,
             isActive: 1,
-            lastName: body.lastName,
-            email: body.email,
-            userName: body.userName,
+            lastName: user.lastName,
+            email: user.email,
+            userName: user.userName,
         }
     }
-    if (body.avatarUrl) {
-        params.Item!.avatarUrl = body.avatarUrl
+    if (user.avatarUrl) {
+        params.Item!.avatarUrl = user.avatarUrl
     }
     const result = await putItem(params)
     if (result.success) {
