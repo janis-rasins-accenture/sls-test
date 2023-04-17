@@ -24,11 +24,13 @@
     "serverless-dynamodb-local": "^1.0.2",
     "serverless-offline": "^12.0.4",
     "serverless-plugin-typescript": "^2.1.4",
+    "serverless-s3-local": "^0.7.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.312.0",
     "@aws-sdk/client-lambda": "^3.314.0",
+    "@aws-sdk/client-s3": "^3.312.0",
     "@aws-sdk/lib-dynamodb": "^3.312.0",
     "uuid": "^9.0.0",
     "yup": "^1.1.1"

@@ -16,10 +16,21 @@ export const handler = async (event: APIGatewayEvent) => {
     return returnData(400, 'No users!')
   }
   try {
-    let parsedUsers: DynamoUserIF[] = []
-    for (const user of users) {
-      await userCreateSchema.validate(user)
-      parsedUsers.push({
+    // let parsedUsers: DynamoUserIF[] = []
+    // for (const user of users) {
+    //   await userCreateSchema.validate(user)
+    //   parsedUsers.push({
+    //     avatarUrl: { S: user.avatarUrl as string },
+    //     email: { S: user.email as string },
+    //     firstName: { S: user.firstName as string },
+    //     isActive: { N: 1 },
+    //     userId: { S: uuidv4() },
+    //     lastName: { S: user.lastName as string },
+    //     userName: { S: user.userName as string },
+    //   })
+    // }
+    const parsedUsers: DynamoUserIF[] = users.map((user) => {
+      return {
         avatarUrl: { S: user.avatarUrl as string },
         email: { S: user.email as string },
         firstName: { S: user.firstName as string },
@@ -27,8 +38,8 @@ export const handler = async (event: APIGatewayEvent) => {
         userId: { S: uuidv4() },
         lastName: { S: user.lastName as string },
         userName: { S: user.userName as string },
-      })
-    }
+      }
+    })
     const response = await batchWrite(
       parsedUsers as Record<string, AttributeValue>[],
       process.env.TABLE_NAME_USERS as string,

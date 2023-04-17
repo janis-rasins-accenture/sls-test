@@ -1,6 +1,7 @@
 plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb-local
+  - serverless-s3-local
   - serverless-offline
 app: sls-test
 service: sls-test
@@ -45,39 +46,56 @@ custom:
       convertEmptyValues: false
       noStart: false
       dockerImage: amazon/dynamodb
+  s3:
+    host: localhost
+    directory: ./s3-buckets
 
 functions:
   - hello-world:
       handler: handlers/hello/hello.handler
       description: 'offline example'
       events:
-        - http:
-            path: hello
+        - httpApi:
+            path: /${self:provider.stage}/hello
             method: GET
   - createUser:
       handler: handlers/users/createUser.handler
       events:
-        - http:
-            path: users/create
+        - httpApi:
+            path: /${self:provider.stage}/users/create
             method: PUT
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
   - queryUsers:
       handler: handlers/users/queryUsers.handler
       events:
-        - http:
-            path: users/get
+        - httpApi:
+            path: /${self:provider.stage}/users/get
             method: GET
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
   - importUsers:
       handler: handlers/users/importUsers.handler
       events:
-        - http:
-            path: users/import
+        - httpApi:
+            path: /${self:provider.stage}/users/import
             method: POST
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+  - upload:
+      handler: handlers/s3/upload.handler
+      events:
+        - httpApi:
+            path: /${self:provider.stage}/upload/{fileName}
+            method: POST
+      environment:
+        BUCKET_NAME: ${self:resources.Resources.localBucket.Properties.BucketName}
+  - s3hook:
+      handler: handlers/s3/s3hook.handler
+      events:
+        - s3:
+            bucket: local-bucket
+            event: s3:ObjectCreated:*
 
 resources:
   Resources:
@@ -123,3 +141,7 @@ resources:
             ProvisionedThroughput:
               ReadCapacityUnits: 3
               WriteCapacityUnits: 3
+    localBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: local-bucket
