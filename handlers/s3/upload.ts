@@ -14,7 +14,6 @@ export const handler = async (event: APIGatewayEvent) => {
 
   let fileName = event.pathParameters.fileName
   console.log('Received file name: ', fileName)
-  console.log('Received file body: ', event.body)
 
   const params: PutObjectCommandInput = {
     Bucket: BUCKET_NAME,

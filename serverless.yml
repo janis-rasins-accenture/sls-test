@@ -96,6 +96,8 @@ functions:
         - s3:
             bucket: local-bucket
             event: s3:ObjectCreated:*
+      environment:
+        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 
 resources:
   Resources:

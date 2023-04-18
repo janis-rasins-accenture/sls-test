@@ -10,13 +10,13 @@ const BATCH_MAX = 25
 
 interface BatchWriteResponseIF {
   isSuccess: boolean
-  message: string
+  message: Record<string, WriteRequest[]>[] | string
 }
 
 const batchWriteItems = async (
   writeRequest: WriteRequest[],
   tableName: string,
-): Promise<BatchWriteResponseIF> => {
+): Promise<Record<string, WriteRequest[]>> => {
   const params: BatchWriteItemCommandInput = {
     RequestItems: {
       [tableName]: writeRequest,
@@ -24,9 +24,9 @@ const batchWriteItems = async (
   }
   try {
     const response = await ddbClient.send(new BatchWriteItemCommand(params))
-    return { isSuccess: true, message: JSON.stringify(response) }
+    return response.UnprocessedItems || {}
   } catch (error) {
-    return { isSuccess: false, message: JSON.stringify(error) }
+    return error
   }
 }
 
@@ -41,7 +41,7 @@ export const batchWrite = async (
     return { isSuccess: false, message: 'No items!' }
   }
   const BATCHES = Math.floor((items.length + BATCH_MAX - 1) / BATCH_MAX)
-  let output: BatchWriteResponseIF[] = []
+  let output: Record<string, WriteRequest[]>[] = []
 
   for (let batch = 0; batch < BATCHES; batch++) {
     const itemsArray: WriteRequest[] = []
@@ -60,13 +60,15 @@ export const batchWrite = async (
 
     console.log('Batch', batch, 'write', itemsArray.length, 'items')
     try {
-      const response: BatchWriteResponseIF = await batchWriteItems(itemsArray, tableName)
-      output.push(response)
-      console.log(`BatchWrite response: ${JSON.stringify(response)}`)
+      const unprocessedItems = await batchWriteItems(itemsArray, tableName)
+      if (unprocessedItems && unprocessedItems.length) {
+        output.push(unprocessedItems)
+      }
+      console.log(`BatchWrite response: ${JSON.stringify(unprocessedItems)}`)
     } catch (error) {
       output.push(error)
       console.log(`BatchWrite response: ${JSON.stringify(error)}`)
     }
   }
-  return { isSuccess: true, message: JSON.stringify(output) }
+  return { isSuccess: true, message: output }
 }
