@@ -14,6 +14,7 @@ provider:
   stage: ${opt:stage, 'local'}
   region: ${env:REGION}
   memorySize: 256
+  timeout: 20
   iam:
     role:
       statements: # permissions for all of your functions can be set here
@@ -30,6 +31,11 @@ provider:
   environment:
     DYNAMO_ENDPOINT: ${env:DYNAMO_ENDPOINT}
     REGION: ${env:REGION}
+    IS_OFFLINE: ${env.IS_OFFLINE}
+    S3_ENDPOINT: ${env.S3_ENDPOINT}
+    S3_LOCAL_ENDPOINT: ${env.S3_LOCAL_ENDPOINT}
+    LAMBDA_ENDPOINT: ${env:LAMBDA_ENDPOINT}
+    LOCAL_LAMBDA_ENDPOINT: ${env:LOCAL_LAMBDA_ENDPOINT}
 
 custom:
   serverless-offline:
@@ -74,6 +80,14 @@ functions:
             method: GET
       environment:
         TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+  - getUserByName:
+      handler: handlers/users/getUserByName.handler
+      events:
+        - httpApi:
+            path: /${self:provider.stage}/users
+            method: GET
+      environment:
+        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
   - importUsers:
       handler: handlers/users/importUsers.handler
       events:
@@ -90,6 +104,10 @@ functions:
             method: POST
       environment:
         BUCKET_NAME: ${self:resources.Resources.localBucket.Properties.BucketName}
+  - usersCreated:
+      handler: handlers/users/importUsers.usersCreated
+      environment:
+        TABLE_NAME_EVENTS: ${env:TABLE_NAME_EVENTS}
   - s3hook:
       handler: handlers/s3/s3hook.handler
       events:

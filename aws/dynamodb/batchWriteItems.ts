@@ -67,7 +67,7 @@ export const batchWrite = async (
       console.log(`BatchWrite response: ${JSON.stringify(unprocessedItems)}`)
     } catch (error) {
       output.push(error)
-      console.log(`BatchWrite response: ${JSON.stringify(error)}`)
+      console.log(`BatchWrite error: ${JSON.stringify(error)}`)
     }
   }
   return { isSuccess: true, message: output }

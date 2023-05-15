@@ -1,0 +1,9 @@
+{
+  "TableName": "events",
+  "KeySchema": [{ "AttributeName": "eventId", "KeyType": "HASH" }],
+  "AttributeDefinitions": [{ "AttributeName": "eventId", "AttributeType": "S" }],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1,
+    "WriteCapacityUnits": 1
+  }
+}

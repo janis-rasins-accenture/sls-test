@@ -6,5 +6,5 @@ export const s3Client = new S3Client({
     accessKeyId: 'S3RVER', // This specific key is required when working offline
     secretAccessKey: 'S3RVER',
   },
-  endpoint: 'http://localhost:4569',
+  endpoint: process.env.IS_OFFLINE ? process.env.S3_LOCAL_ENDPOINT : process.env.S3_ENDPOINT,
 })
