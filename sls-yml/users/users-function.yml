@@ -1,0 +1,37 @@
+createUser:
+  handler: handlers/users/createUser.handler
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/users/create
+        method: PUT
+  environment:
+    TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+queryUsers:
+  handler: handlers/users/queryUsers.handler
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/users/get
+        method: GET
+  environment:
+    TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+getUserByName:
+  handler: handlers/users/getUserByName.handler
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/users
+        method: GET
+  environment:
+    TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+importUsers:
+  handler: handlers/users/importUsers.handler
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/users/import
+        method: POST
+  environment:
+    TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+    LAMBDA_NAME_USERS_CREATED: ${self:app}-${self:provider.stage}-usersCreated
+usersCreated:
+  handler: handlers/users/importUsers.usersCreated
+  environment:
+    TABLE_NAME_EVENTS: ${env:TABLE_NAME_EVENTS}

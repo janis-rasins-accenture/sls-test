@@ -22,6 +22,7 @@ export const handler = async (event: S3Event): Promise<void> => {
     const { Body } = await s3Client.send(new GetObjectCommand(params))
     const users = (await streamToObject(Body as NodeJS.ReadableStream)) as unknown
     const writeResponse = await writeUsersBatch(users as CreateUserInputIF[])
+
     console.log('Batch users write response: ', JSON.stringify(writeResponse))
   } catch (error) {
     console.log('File read error: ', JSON.stringify(error))

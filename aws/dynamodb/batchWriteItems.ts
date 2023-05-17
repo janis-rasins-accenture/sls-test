@@ -8,7 +8,7 @@ import { ddbClient } from './libs/ddbClient'
 
 const BATCH_MAX = 25
 
-interface BatchWriteResponseIF {
+export interface BatchWriteResponseIF {
   isSuccess: boolean
   message: Record<string, WriteRequest[]>[] | string
 }

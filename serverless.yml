@@ -18,16 +18,12 @@ provider:
   iam:
     role:
       statements: # permissions for all of your functions can be set here
-        - Effect: Allow
-          Action: # Gives permission to DynamoDB tables in a specific region
-            - dynamodb:DescribeTable
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource: 'arn:aws:dynamodb:eu-central-1:*:*'
+        - ${file(sls-yml/dynamodb/dynamodb-statements.yml)}
+        - Effect: 'Allow'
+          Action:
+            - 'lambda:InvokeFunction'
+            - 'lambda:InvokeAsync'
+          Resource: '*'
   environment:
     DYNAMO_ENDPOINT: ${env:DYNAMO_ENDPOINT}
     REGION: ${env:REGION}
@@ -57,65 +53,9 @@ custom:
     directory: ./s3-buckets
 
 functions:
-  - hello-world:
-      handler: handlers/hello/hello.handler
-      description: 'offline example'
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/hello
-            method: GET
-  - createUser:
-      handler: handlers/users/createUser.handler
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/users/create
-            method: PUT
-      environment:
-        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
-  - queryUsers:
-      handler: handlers/users/queryUsers.handler
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/users/get
-            method: GET
-      environment:
-        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
-  - getUserByName:
-      handler: handlers/users/getUserByName.handler
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/users
-            method: GET
-      environment:
-        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
-  - importUsers:
-      handler: handlers/users/importUsers.handler
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/users/import
-            method: POST
-      environment:
-        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
-  - upload:
-      handler: handlers/s3/upload.handler
-      events:
-        - httpApi:
-            path: /${self:provider.stage}/upload/{fileName}
-            method: POST
-      environment:
-        BUCKET_NAME: ${self:resources.Resources.localBucket.Properties.BucketName}
-  - usersCreated:
-      handler: handlers/users/importUsers.usersCreated
-      environment:
-        TABLE_NAME_EVENTS: ${env:TABLE_NAME_EVENTS}
-  - s3hook:
-      handler: handlers/s3/s3hook.handler
-      events:
-        - s3:
-            bucket: local-bucket
-            event: s3:ObjectCreated:*
-      environment:
-        TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+  - ${file(sls-yml/hello/hello-functions.yml)}
+  - ${file(sls-yml/users/users-function.yml)}
+  - ${file(sls-yml/s3/s3-functions.yml)}
 
 resources:
   Resources:

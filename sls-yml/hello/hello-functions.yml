@@ -1,0 +1,7 @@
+hello-world:
+  handler: handlers/hello/hello.handler
+  description: 'offline example'
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/hello
+        method: GET

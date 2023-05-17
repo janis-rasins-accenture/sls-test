@@ -1,0 +1,16 @@
+upload:
+  handler: handlers/s3/upload.handler
+  events:
+    - httpApi:
+        path: /${self:provider.stage}/upload/{fileName}
+        method: POST
+  environment:
+    BUCKET_NAME: ${self:resources.Resources.localBucket.Properties.BucketName}
+s3hook:
+  handler: handlers/s3/s3hook.handler
+  events:
+    - s3:
+        bucket: local-bucket
+        event: s3:ObjectCreated:*
+  environment:
+    TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
