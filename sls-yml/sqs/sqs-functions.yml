@@ -1,0 +1,13 @@
+fulfillOrder:
+  handler: handlers/sqs/sqsFulfill.handler
+  timeout: 300
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt:
+            - FulfillmentQueue
+            - Arn
+        maximumConcurrency: 11
+        batchSize: 120
+        maximumBatchingWindow: 160
+        functionResponseType: ReportBatchItemFailures

@@ -6,6 +6,7 @@ createUser:
         method: PUT
   environment:
     TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
+    SQS_URL: ${env.SQS_LOCAL_ENDPOINT}/${self:app}-${self:provider.stage}-createUser
 queryUsers:
   handler: handlers/users/queryUsers.handler
   events:

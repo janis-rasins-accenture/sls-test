@@ -6,6 +6,8 @@ import { returnData } from '../../utils/returnData'
 import { CreateUserInputIF } from '../../types/users-if'
 import { userCreateSchema } from './validation/usersValidation'
 import { ValidationError } from 'yup'
+import { sqsSendMessage } from '../../aws/sqs/sqsSend'
+import { UserCreatedSqsIF } from '../../types/sqs-if'
 
 export const handler = async (event: APIGatewayEvent) => {
   if (!event.body) {
@@ -37,6 +39,12 @@ export const handler = async (event: APIGatewayEvent) => {
   }
   const result = await putItem(params)
   if (result.success) {
+    const body: UserCreatedSqsIF = {
+      message: 'User created',
+      userId: uuid,
+    }
+    const sqsResponse = await sqsSendMessage(JSON.stringify(body))
+    console.log('sqsResponse: ', JSON.stringify(sqsResponse))
     return returnData(200, 'Success!', JSON.stringify({ userId: uuid }))
   } else {
     return returnData(400, result.error)

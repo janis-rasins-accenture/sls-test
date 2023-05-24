@@ -2,6 +2,7 @@ plugins:
   - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-s3-local
+  - serverless-offline-sqs
   - serverless-offline
 app: sls-test
 service: sls-test
@@ -51,6 +52,14 @@ custom:
   s3:
     host: localhost
     directory: ./s3-buckets
+  serverless-offline-sqs:
+    autoCreate: true # create queue if not exists
+    apiVersion: '2012-11-05'
+    endpoint: ${env:SQS_LOCAL_ENDPOINT}
+    region: ${env:REGION}
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
 
 functions:
   - ${file(sls-yml/hello/hello-functions.yml)}
@@ -105,3 +114,12 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: local-bucket
+    FulfillmentQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        DelaySeconds: 1
+        QueueName: ${self:app}-${self:provider.stage}-createUser
+        MessageRetentionPeriod: 60
+        ReceiveMessageWaitTimeSeconds: 1
+        MaximumMessageSize: 2048
+        VisibilityTimeout: 300
