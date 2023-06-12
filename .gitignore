@@ -10,3 +10,6 @@ node_modules
 
 # S3 bucket folder
 s3-buckets
+
+# Jest
+coverage
