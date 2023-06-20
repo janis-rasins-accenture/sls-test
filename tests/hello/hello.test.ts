@@ -4,7 +4,6 @@ import {
   APIGatewayProxyEventMultiValueHeaders,
 } from 'aws-lambda'
 import * as HelloHandler from '../../handlers/hello/hello'
-import { StandardResponse } from '../../utils/returnData'
 
 describe('Unit test for AWS lambda handler', () => {
   let helloCall: jest.SpyInstance

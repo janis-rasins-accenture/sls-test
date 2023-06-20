@@ -10,4 +10,7 @@ module.exports = {
       lines: 85,
     },
   },
+  roots: ['<rootDir>'],
+  modulePaths: ['<rootDir>'],
+  moduleDirectories: ['node_modules'],
 }
