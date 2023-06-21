@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from 'aws-lambda'
-import { StandardResponse, returnData } from '../../utils/returnData'
+import { StandardResponse, returnData } from '../../../src/utils/returnData'
 
 export const handler = async (event: APIGatewayEvent): Promise<StandardResponse> => {
   return returnData(

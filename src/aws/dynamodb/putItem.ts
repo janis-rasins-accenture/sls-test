@@ -1,5 +1,5 @@
 import { PutCommand, PutCommandInput } from '@aws-sdk/lib-dynamodb'
-import { ddbDocClient } from './libs/ddbDocClient.js'
+import { ddbDocClient } from './libs/ddbDocClient'
 
 export const putItem = async (params: PutCommandInput) => {
   try {

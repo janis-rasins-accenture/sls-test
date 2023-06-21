@@ -1,5 +1,5 @@
 createUser:
-  handler: handlers/users/createUser.handler
+  handler: src/handlers/users/createUser.handler
   events:
     - httpApi:
         path: /${self:provider.stage}/users/create
@@ -8,7 +8,7 @@ createUser:
     TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
     SQS_URL: ${env.SQS_LOCAL_ENDPOINT}/${self:app}-${self:provider.stage}-createUser
 queryUsers:
-  handler: handlers/users/queryUsers.handler
+  handler: src/handlers/users/queryUsers.handler
   events:
     - httpApi:
         path: /${self:provider.stage}/users/get
@@ -16,7 +16,7 @@ queryUsers:
   environment:
     TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 getUserByName:
-  handler: handlers/users/getUserByName.handler
+  handler: src/handlers/users/getUserByName.handler
   events:
     - httpApi:
         path: /${self:provider.stage}/users
@@ -24,7 +24,7 @@ getUserByName:
   environment:
     TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
 importUsers:
-  handler: handlers/users/importUsers.handler
+  handler: src/handlers/users/importUsers.handler
   events:
     - httpApi:
         path: /${self:provider.stage}/users/import
@@ -33,6 +33,6 @@ importUsers:
     TABLE_NAME_USERS: ${env:TABLE_NAME_USERS}
     LAMBDA_NAME_USERS_CREATED: ${self:app}-${self:provider.stage}-usersCreated
 usersCreated:
-  handler: handlers/users/importUsers.usersCreated
+  handler: src/handlers/users/importUsers.usersCreated
   environment:
     TABLE_NAME_EVENTS: ${env:TABLE_NAME_EVENTS}

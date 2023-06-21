@@ -1,5 +1,5 @@
 hello-world:
-  handler: handlers/hello/hello.handler
+  handler: src/handlers/hello/hello.handler
   description: 'offline example'
   events:
     - httpApi:

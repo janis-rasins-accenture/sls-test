@@ -1,6 +1,6 @@
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb'
 import { queryItems } from '../../aws/dynamodb/queryItems'
-import { returnData } from '../../utils/returnData'
+import { returnData } from '../../../src/utils/returnData'
 
 export const handler = async () => {
   const TABLE_NAME_USERS = process.env.TABLE_NAME_USERS

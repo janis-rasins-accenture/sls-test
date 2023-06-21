@@ -7,7 +7,7 @@
     "outDir": ".build",
     "moduleResolution": "node",
     "lib": ["es2017"],
-    "rootDir": "./",
+    "rootDir": "src",
     "removeComments": true,
     "resolveJsonModule": true,
     "noUnusedLocals": false,
@@ -15,19 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "watch": true,
     "target": "es2017",
     "module": "commonjs",
     "esModuleInterop": true
-  },
-  "include": ["./**/*.ts"],
-  "exclude": [
-    "node_modules/**/*",
-    ".serverless/**/*",
-    ".webpack/**/*",
-    "_warmup/**/*",
-    ".vscode/**/*",
-    "*.config.js",
-    "**/*.js"
-  ]
+  }
 }

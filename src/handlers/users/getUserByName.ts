@@ -1,6 +1,6 @@
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb'
 import { queryItems } from '../../aws/dynamodb/queryItems'
-import { returnData } from '../../utils/returnData'
+import { returnData } from '../../../src/utils/returnData'
 import { APIGatewayEvent } from 'aws-lambda'
 
 export const handler = async (event: APIGatewayEvent) => {

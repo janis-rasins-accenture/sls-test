@@ -1,7 +1,7 @@
 import { UpdateCommandInput, UpdateCommandOutput } from '@aws-sdk/lib-dynamodb'
-import { returnData } from '../../utils/returnData'
+import { returnData } from '../../../src/utils/returnData'
 import { updateItem } from '../../aws/dynamodb/updateItem'
-import { DynamoUserIF } from '../../types/users-if'
+import { DynamoUserIF } from '../../../src/types/users-if'
 
 export const updateUser = async (
   user: DynamoUserIF,

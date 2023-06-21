@@ -1,8 +1,12 @@
 module.exports = {
-  testMatch: ['**/tests/**/*.+(ts|tsx|js)'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   clearMocks: false,
   collectCoverage: true,
-  coverageDirectory: 'coverage',
+  coverageDirectory: '../coverage',
   coverageProvider: 'v8',
   testEnvironment: 'node',
   coverageThreshold: {
@@ -10,7 +14,5 @@ module.exports = {
       lines: 85,
     },
   },
-  roots: ['<rootDir>'],
-  modulePaths: ['<rootDir>'],
-  moduleDirectories: ['node_modules'],
+  rootDir: 'src',
 }

@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
-import { returnData } from '../../utils/returnData'
-import { CreateUserInputIF, DynamoUserIF } from '../../types/users-if'
+import { returnData } from '../../../src/utils/returnData'
+import { CreateUserInputIF, DynamoUserIF } from '../../../src/types/users-if'
 import { ValidationError } from 'yup'
 import { BatchWriteResponseIF, batchWrite } from '../../aws/dynamodb/batchWriteItems'
 import { v4 as uuidv4 } from 'uuid'

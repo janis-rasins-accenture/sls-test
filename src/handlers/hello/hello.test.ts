@@ -3,12 +3,12 @@ import {
   APIGatewayEventIdentity,
   APIGatewayProxyEventMultiValueHeaders,
 } from 'aws-lambda'
-import * as HelloHandler from '../../handlers/hello/hello'
+import * as HelloHandler from './hello'
 
 describe('Unit test for AWS lambda handler', () => {
-  let helloCall: jest.SpyInstance
+  let spyHelloCall: jest.SpyInstance
   beforeAll(() => {
-    helloCall = jest.spyOn(HelloHandler, 'handler')
+    spyHelloCall = jest.spyOn(HelloHandler, 'handler')
   })
   const mockAPIGatewayEvent: APIGatewayEvent = {
     body: null,
@@ -93,8 +93,8 @@ describe('Unit test for AWS lambda handler', () => {
   it('Handles hello', async () => {
     const callBody = { message: expectedBodyMessage, data: JSON.stringify(responseData) }
     const response = await HelloHandler.handler(mockAPIGatewayEvent)
-    expect(helloCall).toHaveBeenCalledTimes(1)
-    expect(helloCall).toBeCalledWith(mockAPIGatewayEvent)
+    expect(spyHelloCall).toHaveBeenCalledTimes(1)
+    expect(spyHelloCall).toBeCalledWith(mockAPIGatewayEvent)
     expect(response.statusCode).toEqual(200)
     expect(JSON.parse(response.body).message).toEqual(callBody.message)
     expect(JSON.parse(response.body).data).toEqual(callBody.data)

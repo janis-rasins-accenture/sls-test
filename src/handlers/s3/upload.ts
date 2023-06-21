@@ -1,5 +1,5 @@
 import { APIGatewayEvent } from 'aws-lambda'
-import { returnData } from '../../utils/returnData'
+import { returnData } from '../../../src/utils/returnData'
 import { PutObjectCommandInput } from '@aws-sdk/client-s3'
 import { createFile } from '../../aws/s3/createFile'
 

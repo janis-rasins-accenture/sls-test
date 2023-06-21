@@ -2,12 +2,12 @@ import { APIGatewayEvent } from 'aws-lambda'
 import { putItem } from '../../aws/dynamodb/putItem'
 import { v4 as uuidv4 } from 'uuid'
 import { PutCommandInput } from '@aws-sdk/lib-dynamodb'
-import { returnData } from '../../utils/returnData'
-import { CreateUserInputIF } from '../../types/users-if'
+import { returnData } from '../../../src/utils/returnData'
+import { CreateUserInputIF } from '../../../src/types/users-if'
 import { userCreateSchema } from './validation/usersValidation'
 import { ValidationError } from 'yup'
 import { sqsSendMessage } from '../../aws/sqs/sqsSend'
-import { UserCreatedSqsIF } from '../../types/sqs-if'
+import { UserCreatedSqsIF } from '../../../src/types/sqs-if'
 
 export const handler = async (event: APIGatewayEvent) => {
   if (!event.body) {

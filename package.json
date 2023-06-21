@@ -11,13 +11,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-typescript": "^7.21.4",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@serverless/eslint-config": "^5.0.1",
     "@types/aws-lambda": "^8.10.114",
     "@types/jest": "^29.5.2",
     "@types/node": "^18.15.11",
+    "babel-jest": "^29.5.0",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
@@ -27,6 +28,7 @@
     "serverless-offline": "^12.0.4",
     "serverless-plugin-typescript": "^2.1.4",
     "serverless-s3-local": "^0.7.1",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {

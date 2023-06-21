@@ -1,5 +1,5 @@
 fulfillOrder:
-  handler: handlers/sqs/sqsFulfill.handler
+  handler: src/handlers/sqs/sqsFulfill.handler
   timeout: 300
   events:
     - sqs:
