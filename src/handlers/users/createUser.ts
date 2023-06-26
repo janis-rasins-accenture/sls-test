@@ -45,7 +45,11 @@ export const handler = async (event: APIGatewayEvent) => {
     }
     const sqsResponse = await sqsSendMessage(JSON.stringify(body))
     console.log('sqsResponse: ', JSON.stringify(sqsResponse))
-    return returnData(200, 'Success!', JSON.stringify({ userId: uuid }))
+    if (sqsResponse) {
+      return returnData(200, 'Success!', JSON.stringify({ userId: uuid }))
+    } else {
+      return returnData(400, 'SQS send Error!')
+    }
   } else {
     return returnData(400, result.error)
   }
